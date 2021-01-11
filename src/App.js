@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -58,6 +58,7 @@ function App() {
 
   const classes = useStyles();
 
+  /** Fetch quiz questions from API */
   useEffect(function fetchQuestionsOnCall() {
     async function fetchQuestions() {
       setIsLoading(true);
@@ -79,6 +80,11 @@ function App() {
       fetchQuestions();
     }
   }, [fetchingQs])
+
+  function answerQuestion() {
+    return
+  }
+
 
   return (
     <React.Fragment>
@@ -103,7 +109,7 @@ function App() {
 
         {/* Questions Component */}
         {!isLoading &&
-        <QuestionContainer questions={questions} />
+        <QuestionContainer questions={questions} answerQuestion={answerQuestion} />
         }
       </Container>
     </React.Fragment>
