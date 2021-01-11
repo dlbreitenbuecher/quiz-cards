@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+import he from 'he';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -13,13 +15,33 @@ import QuestionContainer from './questions/QuestionContainer';
 
 const GENERAL_QUIZ_API_URL = 'https://opentdb.com/api.php?amount=10&type=multiple';
 
+
+/** Decodes html special character encoding into readable strings */
+function formatAPIResponse(response) {
+  return response.map( obj => {
+
+    let copiedObj = {...obj};
+
+    for(let key in copiedObj) {
+      if(Array.isArray(copiedObj[key])) {
+        copiedObj[key] = copiedObj[key].map(answer => (
+          he.decode(answer)
+        ))
+      } else {
+        copiedObj[key] = he.decode(copiedObj[key]);
+      }
+    }
+    return copiedObj;
+  })
+}
+
+
 const useStyles = makeStyles({
   spinnerContainer: {
     height: '40vh'
-  }
+  },
 },
 );
-
 
 
 
@@ -66,6 +88,14 @@ function App() {
         const response = await fetch(GENERAL_QUIZ_API_URL);
         const questionsFromAPI = await response.json();
 
+        console.log('PreFormatted response:', questionsFromAPI.results);
+        
+        const formattedQuestions = formatAPIResponse(questionsFromAPI.results);
+        console.log('FormattedResponse:', formattedQuestions);
+
+        console.log('questionsFromAPI === questionsFromAPI', questionsFromAPI.results === questionsFromAPI.results);
+        console.log('questionsFromAPI === formattedQuestions', questionsFromAPI.results === formattedQuestions);
+
         setQuestions(questionsFromAPI.results);
         setIsLoading(false);
         setFetchingQs(false);
@@ -108,8 +138,13 @@ function App() {
         }
 
         {/* Questions Component */}
-        {!isLoading &&
-        <QuestionContainer questions={questions} answerQuestion={answerQuestion} />
+        {!isLoading && questions &&
+          <Box mb={5}>
+            <QuestionContainer questions={questions} answerQuestion={answerQuestion} />
+            <Box mt={3} display='flex' justifyContent='center'>
+              <Button variant='contained' size='large' color='primary'>Submit Answers</Button>
+            </Box>
+          </Box>
         }
       </Container>
     </React.Fragment>
