@@ -1,5 +1,10 @@
 import React from 'react';
 
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+
+import QuestionCard from './QuestionCard';
+
 
 /**Container for QuestionCards
  * 
@@ -17,7 +22,7 @@ import React from 'react';
                     "10 Meters",
                     "2 Meters",
                     "5 Meters"
-                  ]
+                  ],
                 }, ...
               ]
  *  
@@ -26,13 +31,23 @@ import React from 'react';
  * 
  * App -> QuestionContainer -> QuestionCard 
  */
-function QuestionContainer({ questions }) {
+function QuestionContainer({ questions, answerQuestion }) {
 
   console.log(questions)
   return (
-    <div>
-
-    </div>
+    <React.Fragment>
+      {questions &&
+        <Box mt={4}>
+          <Grid container spacing={3} direction='column' alignItems='center'>
+            {questions.map((q, idx) => (
+              <Grid item container xs={6} key={q.correct_answer}>
+                <QuestionCard question={q} answerQuestion={answerQuestion} key={idx} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      }
+    </React.Fragment>
   )
 }
 
