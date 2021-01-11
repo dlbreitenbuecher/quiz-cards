@@ -1,3 +1,10 @@
+# Quiz Time
+
+A small quiz app created with React. 
+
+This app utilizes the Open Trivia Database API
+See: https://opentdb.com/api_config.php
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
