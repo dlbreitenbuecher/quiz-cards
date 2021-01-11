@@ -88,15 +88,15 @@ function App() {
         const response = await fetch(GENERAL_QUIZ_API_URL);
         const questionsFromAPI = await response.json();
 
-        console.log('PreFormatted response:', questionsFromAPI.results);
+        // console.log('PreFormatted response:', questionsFromAPI.results);
         
         const formattedQuestions = formatAPIResponse(questionsFromAPI.results);
-        console.log('FormattedResponse:', formattedQuestions);
+        // console.log('FormattedResponse:', formattedQuestions);
 
-        console.log('questionsFromAPI === questionsFromAPI', questionsFromAPI.results === questionsFromAPI.results);
-        console.log('questionsFromAPI === formattedQuestions', questionsFromAPI.results === formattedQuestions);
+        // console.log('questionsFromAPI === questionsFromAPI', questionsFromAPI.results === questionsFromAPI.results);
+        // console.log('questionsFromAPI === formattedQuestions', questionsFromAPI.results === formattedQuestions);
 
-        setQuestions(questionsFromAPI.results);
+        setQuestions(formattedQuestions);
         setIsLoading(false);
         setFetchingQs(false);
       } catch (err) {
