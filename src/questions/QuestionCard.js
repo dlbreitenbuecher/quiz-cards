@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import he from 'he';
 
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -57,11 +56,7 @@ function QuestionCard({ question, answerQuestion }) {
   const [formData, setFormData] = useState(null);
 
   const classes = useStyles();
-  let formattedQuestion;
 
-  if (question) {
-    formattedQuestion = he.decode(question.question)
-  }
   function handleChange(evt) {
     const userAnswer = evt.target.value;
     setFormData(userAnswer);
@@ -82,7 +77,7 @@ function QuestionCard({ question, answerQuestion }) {
 
   const answerChoices = useMemo(() => (
     renderAnswerChoices()
-  ),[question]);
+  ),[question.incorrect_answers, question.correct_answer]);
 
   return (
     <Box width={1}>
