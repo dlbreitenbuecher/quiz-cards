@@ -27,15 +27,57 @@ import QuestionCard from './QuestionCard';
                 }, ...
               ]
  *  
- *  - answerQuestion:
- *      function that adds/sets user_anser property for question object. Used to record the user's selectred answer
+ * state:
+ *  - userAnswers
+ *      array of objects consisting of a question and a user's answer choice
+ *        [{question, userAnswer}, ...]
+ * 
+ *  - sumCorrectAnswers
+ *      (Number)
+ *        
+ *  - 
  * 
  * App -> QuestionContainer -> QuestionCard 
  */
-function QuestionContainer({ questions, answerQuestion }) {
-  const [userAnswers, setUserAnswers] = useState(null);
+function QuestionContainer({ questions }) {
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [sumCorrectAnswers, setSumCorrectAnswers] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
-  console.log(questions)
+
+  function answerQuestion(newAnswerChoice) {
+    setUserAnswers(userAnswers => {
+      const filteredAnswers = userAnswers.filter(answer => (
+        answer.question !== newAnswerChoice.question
+      ))
+
+      return [...filteredAnswers, newAnswerChoice];
+    });
+  }
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    let sum = 0;
+
+    userAnswers.forEach( answer => {
+      for(let question of questions) {
+        if (answer.question === question.question) {
+          // Add to sum based on question difficulty
+          if (answer.userAnswer === question.correct_answer) {
+            if (question.difficulty === 'easy') {
+              sum += 1;
+            } else if (question.difficulty === 'medium') {
+              sum += 2;
+            } else if (question.difficulty === 'hard') {
+              sum += 3;
+            }
+          break;
+        }
+      }
+    })
+    setSumCorrectAnswers(sum)
+  }
+
   return (
     <React.Fragment>
       {questions &&
@@ -48,7 +90,7 @@ function QuestionContainer({ questions, answerQuestion }) {
             ))}
 
             <Grid item>
-              <Button variant='contained' size='large' color='primary'>Submit Answers</Button>
+              <Button variant='contained' size='large' color='primary' onClick={handleSubmit}>Submit Answers</Button>
             </Grid>
 
           </Grid>

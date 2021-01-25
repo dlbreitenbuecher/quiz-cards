@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -58,12 +58,20 @@ function QuestionCard({ question, answerQuestion }) {
   const classes = useStyles();
 
   function handleChange(evt) {
-    const userAnswer = evt.target.value;
-    setFormData(userAnswer);
-    // answerQuestion(userAnswer);
+    const { name, value } = evt.target;
+    
+    setFormData(evt.target.value);
+
+    const answerChoice = {
+      question: name,
+      userAnswer: value
+    }
+
+    console.log('answerChoice:', answerChoice);
+    answerQuestion(answerChoice);
   }
 
-  function renderAnswerChoices() {
+  const renderAnswerChoices = useCallback(() => {
     let answers = [...question.incorrect_answers];
 
     // Create random index (between 0 & 3) to insert 
@@ -73,19 +81,20 @@ function QuestionCard({ question, answerQuestion }) {
     return answers.map((answer, idx) => (
       <FormControlLabel value={answer} control={<Radio />} label={answer} key={idx} />
     ))
-  }
+  }, [question.incorrect_answers, question.correct_answer] );
 
+  // TODO: Clean Up Dependancy Array
   const answerChoices = useMemo(() => (
     renderAnswerChoices()
-  ),[question.incorrect_answers, question.correct_answer]);
+  ),[renderAnswerChoices]);
 
   return (
     <Box width={1}>
       <Card>
         <CardContent>
           <FormControl component='fieldset'>
-            <FormLabel component='legend' className={classes.question}>{formattedQuestion}</FormLabel>
-            <RadioGroup aria-label={question.answer} name={question.answer} value={formData} onChange={handleChange}>
+            <FormLabel component='legend' className={classes.question}>{question.question}</FormLabel>
+            <RadioGroup aria-label={question.question} name={question.question} value={formData} onChange={handleChange}>
               {answerChoices}
             </RadioGroup>
           </FormControl>
