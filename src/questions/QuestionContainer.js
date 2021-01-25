@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 
 import QuestionCard from './QuestionCard';
 
@@ -32,6 +33,7 @@ import QuestionCard from './QuestionCard';
  * App -> QuestionContainer -> QuestionCard 
  */
 function QuestionContainer({ questions, answerQuestion }) {
+  const [userAnswers, setUserAnswers] = useState(null);
 
   console.log(questions)
   return (
@@ -44,6 +46,11 @@ function QuestionContainer({ questions, answerQuestion }) {
                 <QuestionCard question={q} answerQuestion={answerQuestion} key={idx} />
               </Grid>
             ))}
+
+            <Grid item>
+              <Button variant='contained' size='large' color='primary'>Submit Answers</Button>
+            </Grid>
+
           </Grid>
         </Box>
       }

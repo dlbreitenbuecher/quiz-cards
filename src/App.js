@@ -141,9 +141,6 @@ function App() {
         {!isLoading && questions &&
           <Box mb={5}>
             <QuestionContainer questions={questions} answerQuestion={answerQuestion} />
-            <Box mt={3} display='flex' justifyContent='center'>
-              <Button variant='contained' size='large' color='primary'>Submit Answers</Button>
-            </Box>
           </Box>
         }
       </Container>
