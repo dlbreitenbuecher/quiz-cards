@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import he from 'he';
 
@@ -111,9 +111,6 @@ function App() {
     }
   }, [fetchingQs])
 
-  function answerQuestion() {
-    return
-  }
 
 
   return (
@@ -140,7 +137,7 @@ function App() {
         {/* Questions Component */}
         {!isLoading && questions &&
           <Box mb={5}>
-            <QuestionContainer questions={questions} answerQuestion={answerQuestion} />
+            <QuestionContainer questions={questions} />
           </Box>
         }
       </Container>
