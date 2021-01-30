@@ -44,8 +44,8 @@ function QuestionContainer({ questions }) {
   const [sumCorrectAnswers, setSumCorrectAnswers] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
-
   function answerQuestion(newAnswerChoice) {
+    // Updates userAnswers with a new answer for a previously answered question or add answer for newly answered question
     setUserAnswers(userAnswers => {
       const filteredAnswers = userAnswers.filter(answer => (
         answer.question !== newAnswerChoice.question
@@ -55,27 +55,30 @@ function QuestionContainer({ questions }) {
     });
   }
 
+  /**Sums correct answers and updates submitted state to 'true' */
   function handleSubmit(evt) {
     evt.preventDefault();
     let sum = 0;
 
-    userAnswers.forEach( answer => {
-      for(let question of questions) {
-        if (answer.question === question.question) {
-          // Add to sum based on question difficulty
-          if (answer.userAnswer === question.correct_answer) {
-            if (question.difficulty === 'easy') {
-              sum += 1;
-            } else if (question.difficulty === 'medium') {
-              sum += 2;
-            } else if (question.difficulty === 'hard') {
-              sum += 3;
-            }
-          break;
+    // Add up correct answers
+    userAnswers.forEach(answer => {
+
+      const question = questions.find(q => q.question === answer.question)
+
+      // Add to sum based on question difficulty
+      if (answer.userAnswer === question.correct_answer) {
+        if (question.difficulty === 'easy') {
+          sum += 1;
+        } else if (question.difficulty === 'medium') {
+          sum += 2;
+        } else if (question.difficulty === 'hard') {
+          sum += 3;
         }
       }
-    })
-    setSumCorrectAnswers(sum)
+    });
+
+    setSumCorrectAnswers(sum);
+    setSubmitted(true);
   }
 
   return (
