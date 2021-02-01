@@ -8,6 +8,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -22,7 +23,7 @@ function getRandomInt(min, max) {
 const useStyles = makeStyles({
   question: {
     lineHeight: 1.5,
-    marginBottom: '.6rem'
+    marginBottom: '.6rem',
   }
 },
 );
@@ -59,7 +60,7 @@ function QuestionCard({ question, answerQuestion }) {
 
   function handleChange(evt) {
     const { name, value } = evt.target;
-    
+
     setFormData(evt.target.value);
 
     const answerChoice = {
@@ -67,7 +68,6 @@ function QuestionCard({ question, answerQuestion }) {
       userAnswer: value
     }
 
-    console.log('answerChoice:', answerChoice);
     answerQuestion(answerChoice);
   }
 
@@ -81,22 +81,32 @@ function QuestionCard({ question, answerQuestion }) {
     return answers.map((answer, idx) => (
       <FormControlLabel value={answer} control={<Radio />} label={answer} key={idx} />
     ))
-  }, [question.incorrect_answers, question.correct_answer] );
+  }, [question.incorrect_answers, question.correct_answer]);
 
   // TODO: Clean Up Dependancy Array
   const answerChoices = useMemo(() => (
     renderAnswerChoices()
-  ),[renderAnswerChoices]);
+  ), [renderAnswerChoices]);
 
   return (
     <Box width={1}>
       <Card>
         <CardContent>
-          <FormControl component='fieldset'>
+          <FormControl component='fieldset' fullWidth>
             <FormLabel component='legend' className={classes.question}>{question.question}</FormLabel>
             <RadioGroup aria-label={question.question} name={question.question} value={formData} onChange={handleChange}>
               {answerChoices}
             </RadioGroup>
+
+            {/* Difficulty and Category */}
+            <Typography color='textSecondary' variant='caption' display='inline' align='right'>
+              Difficulty: {question.difficulty[0].toUpperCase() + question.difficulty.slice(1)}
+            </Typography>
+
+            <Typography color='textSecondary' variant='caption' display='inline' align='right'>
+              Category: {question.category}
+            </Typography>
+
           </FormControl>
         </CardContent>
       </Card>
