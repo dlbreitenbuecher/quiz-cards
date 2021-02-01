@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
 import QuestionCard from './QuestionCard';
+import { Typography } from '@material-ui/core';
 
 
 /**Container for QuestionCards
@@ -40,6 +41,9 @@ import QuestionCard from './QuestionCard';
  * App -> QuestionContainer -> QuestionCard 
  */
 function QuestionContainer({ questions }) {
+  // TODO Does it make sense to fetch questions in app, but have other relevant state in QuestionContainer?
+  // TODO(cont..) Maybe fetch questions in question container, or move related state to app
+
   const [userAnswers, setUserAnswers] = useState([]);
   const [sumCorrectAnswers, setSumCorrectAnswers] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -97,6 +101,14 @@ function QuestionContainer({ questions }) {
             </Grid>
 
           </Grid>
+        </Box>
+      }
+
+      {submitted &&
+        <Box mt={3}>
+          <Typography component='h2' variant='h3' align='center'>
+            Score: {sumCorrectAnswers}
+          </Typography>
         </Box>
       }
     </React.Fragment>
