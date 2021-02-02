@@ -112,17 +112,16 @@ function QuestionContainer({ questions }) {
             Score: {sumCorrectAnswers}
           </Typography>
 
-          <Box display='flex'>
-            <Typography component='subtitle' display='block'>
-              Easy questions earn 1 point
+          <Typography variant='body2' align='center' display='block'>
+            Easy questions earn 1 point
           </Typography>
-            <Typography component='subtitle' align='center' display='block'>
-              Medium questions earn 2 points
+          <Typography variant='body2' align='center' display='block'>
+            Medium questions earn 2 points
           </Typography>
-            <Typography component='subtitle' align='center' display='block'>
-              Hard questions earn 3 points
+          <Typography variant='body2' align='center' display='block'>
+            Hard questions earn 3 points
           </Typography>
-          </Box>
+
         </Box>
       }
     </React.Fragment>
