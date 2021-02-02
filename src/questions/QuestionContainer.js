@@ -92,12 +92,14 @@ function QuestionContainer({ questions }) {
           <Grid container spacing={3} direction='column' alignItems='center'>
             {questions.map((q, idx) => (
               <Grid item container xs={6} key={q.correct_answer}>
-                <QuestionCard question={q} answerQuestion={answerQuestion} key={idx} />
+                <QuestionCard question={q} answerQuestion={answerQuestion} key={idx} submitted={submitted} />
               </Grid>
             ))}
 
             <Grid item>
-              <Button variant='contained' size='large' color='primary' onClick={handleSubmit}>Submit Answers</Button>
+              <Button variant='contained' size='large' color='primary' onClick={handleSubmit} disabled={submitted}>
+                Submit Answers
+              </Button>
             </Grid>
 
           </Grid>
