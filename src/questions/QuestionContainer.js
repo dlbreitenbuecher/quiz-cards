@@ -108,9 +108,21 @@ function QuestionContainer({ questions }) {
 
       {submitted &&
         <Box mt={3}>
-          <Typography component='h2' variant='h3' align='center'>
+          <Typography component='h2' variant='h3' align='center' paragraph>
             Score: {sumCorrectAnswers}
           </Typography>
+
+          <Box display='flex'>
+            <Typography component='subtitle' display='block'>
+              Easy questions earn 1 point
+          </Typography>
+            <Typography component='subtitle' align='center' display='block'>
+              Medium questions earn 2 points
+          </Typography>
+            <Typography component='subtitle' align='center' display='block'>
+              Hard questions earn 3 points
+          </Typography>
+          </Box>
         </Box>
       }
     </React.Fragment>
